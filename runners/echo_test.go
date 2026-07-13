@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/relexec/rxp-testing/runners"
 	"github.com/relexec/rxp/run"
 	"github.com/relexec/rxp/run/request"
 	"github.com/relexec/rxp/run/response"
-	"github.com/relexec/rxp-testing/runners"
 	"github.com/stretchr/testify/require"
 )
 
