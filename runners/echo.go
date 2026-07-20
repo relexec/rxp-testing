@@ -3,6 +3,7 @@ package runners
 import (
 	"context"
 
+	"github.com/relexec/rxp/api"
 	"github.com/relexec/rxp/run/request"
 	"github.com/relexec/rxp/run/response"
 )
@@ -14,6 +15,9 @@ func Echo(
 	req request.Request,
 	resp *response.Response,
 ) error {
+	if resp.Out == nil {
+		resp.Out = api.Vars{}
+	}
 	resp.Out.Set("request.caller", req.Caller)
 	return nil
 }

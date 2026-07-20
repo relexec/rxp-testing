@@ -39,17 +39,15 @@ var (
 )
 
 var (
-	KindVersion_V1_0_0 *kindversion.KindVersion
+	KindVersion_V1_0_0 *api.KindVersion
 	Schema_V1_0_0      *schema.Schema
-	SchemaJSON_V1_0_0  string
 
-	KindVersion_V1_0_1 *kindversion.KindVersion
+	KindVersion_V1_0_1 *api.KindVersion
 	Schema_V1_0_1      *schema.Schema
-	SchemaJSON_V1_0_1  string
 )
 
 var (
-	KindVersions = map[string]*kindversion.KindVersion{
+	KindVersions = map[string]*api.KindVersion{
 		Version_V1_0_0: KindVersion_V1_0_0,
 		Version_V1_0_1: KindVersion_V1_0_1,
 	}
@@ -57,7 +55,7 @@ var (
 
 // KindVersion returns the KindVersion associated with the supplied version.
 // Version can be either a string or a [semver.Version].
-func KindVersion(version any) (*kindversion.KindVersion, bool) {
+func KindVersion(version any) (*api.KindVersion, bool) {
 	var vstr string
 	switch version := version.(type) {
 	case string:
@@ -72,9 +70,9 @@ func KindVersion(version any) (*kindversion.KindVersion, bool) {
 	return m, ok
 }
 
-// FirstKindVersion returns the [*kindversion.KindVersion] representing the
+// FirstKindVersion returns the [*api.KindVersion] representing the
 // first known version of the kindversion.
-func FirstKindVersion() *kindversion.KindVersion {
+func FirstKindVersion() *api.KindVersion {
 	return KindVersion_V1_0_0
 }
 
@@ -110,9 +108,9 @@ func FirstVersionIn(major string) (*semver.Version, error) {
 	return v, nil
 }
 
-// LastKindVersion returns the [*kindversion.KindVersion] representing the last
+// LastKindVersion returns the [*api.KindVersion] representing the last
 // known version of the kindversion.
-func LastKindVersion() *kindversion.KindVersion {
+func LastKindVersion() *api.KindVersion {
 	return KindVersion_V1_0_1
 }
 
@@ -158,20 +156,11 @@ func init() {
 			err.Error(),
 		)
 	}
-	jsonb, err := js.MarshalJSON()
-	if err != nil {
-		log.Fatalf(
-			"failed to marshal JSON for schema for Application_V1_0_0: %s",
-			err.Error(),
-		)
-	}
 	Schema_V1_0_0 = &schema.Schema{Schema: *js}
-	SchemaJSON_V1_0_0 = string(jsonb)
 	KindVersion_V1_0_0 = kindversion.New(
 		kindversion.WithKind(Kind),
 		kindversion.WithVersion(*SemVer_V1_0_0),
 		kindversion.WithSchema(Schema_V1_0_0),
-		kindversion.WithSchemaJSON(SchemaJSON_V1_0_0),
 	)
 
 	js, err = jsonschema.For[Spec_V1_0_1](nil)
@@ -181,19 +170,10 @@ func init() {
 			err.Error(),
 		)
 	}
-	jsonb, err = js.MarshalJSON()
-	if err != nil {
-		log.Fatalf(
-			"failed to marshal JSON for schema for Application_V1_0_1: %s",
-			err.Error(),
-		)
-	}
 	Schema_V1_0_1 = &schema.Schema{Schema: *js}
-	SchemaJSON_V1_0_1 = string(jsonb)
 	KindVersion_V1_0_1 = kindversion.New(
 		kindversion.WithKind(Kind),
 		kindversion.WithVersion(*SemVer_V1_0_1),
 		kindversion.WithSchema(Schema_V1_0_1),
-		kindversion.WithSchemaJSON(SchemaJSON_V1_0_1),
 	)
 }

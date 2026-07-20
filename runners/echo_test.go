@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/relexec/rxp-testing/runners"
+	"github.com/relexec/rxp/api"
 	"github.com/relexec/rxp/run"
 	"github.com/relexec/rxp/run/request"
 	"github.com/relexec/rxp/run/response"
@@ -17,12 +18,13 @@ func TestEcho(t *testing.T) {
 	r := run.RunnableFrom(runners.Echo)
 
 	ctx := context.TODO()
-	caller := request.Caller{
+	caller := api.Caller{
 		Identity: "user",
 	}
 	req := request.Request{
 		UUID:   uuid.NewString(),
 		Caller: caller,
+		In:     api.Vars{},
 	}
 
 	var resp response.Response
